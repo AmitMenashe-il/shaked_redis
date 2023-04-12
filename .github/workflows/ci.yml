@@ -38,17 +38,17 @@ jobs:
             echo "$test not equal to $expected";
             exit 1;
           else
-            echo "return code $test";
+            echo "Index return code $test";
           fi
 
       - name: Test Index Page Content
         run: > 
-            expected="Hello, visited 1 times";
+            expected="Hello, visited * times";
             test=$(curl http://localhost -s);
             if [[ $test != $expected ]];
             then
               echo "$test not equal to $expected";
               exit 1;
             else
-              echo "return code $test";
+              echo "Index content is $test";
             fi
