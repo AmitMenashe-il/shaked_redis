@@ -43,7 +43,7 @@ jobs:
 
       - name: Test Index Page Content
         run: > 
-            phrase="Hello, visited 1 times";
+            phrase='"Hello, visited 1 times"';
             test=$(curl http://localhost -o | grep $phrase);
             expected=$phrase;
             if [[ $test != $expected ]];
