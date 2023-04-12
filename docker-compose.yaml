@@ -7,6 +7,7 @@ services:
       - 6379
   app:
     container_name: webapp
+    build: .
     image: webapp
     ports:
       - 80:80
