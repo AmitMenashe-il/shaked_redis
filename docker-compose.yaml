@@ -4,7 +4,7 @@ services:
     container_name: redis
     image: redis
     ports:
-      - 6379:6379
+      - 6379
   app:
     container_name: webapp
     image: webapp
