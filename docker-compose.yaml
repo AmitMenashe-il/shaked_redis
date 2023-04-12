@@ -1,13 +1,13 @@
 version: '3.9'
 services:
   redis:
-    container_name: rediscontainer
+    container_name: redis
     image: redis
     ports:
       - 6379:6379
   app:
-    container_name: appcontainer
-    image: redisapp:4
+    container_name: webapp
+    image: webapp
     ports:
       - 80:80
     depends_on:
