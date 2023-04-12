@@ -1,6 +1,9 @@
 docker run -d --name redis redis
 
+docker build -t redisapp:4 .
 
 docker run -d --name redissrv -p 6379:6379 redis
 docker run -d --name redisapp -p 80:80 redisapp:4
+
+
 
