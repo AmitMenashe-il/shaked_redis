@@ -1,0 +1,54 @@
+name: tests
+on: 
+    - push
+    - workflow_dispatch
+
+jobs:
+
+  Tests:
+    name: Sanity Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout to repository
+        uses: actions/checkout@v3
+        
+      - name: Run containers
+        run: |
+            docker compose up -d
+            sleep 20s
+
+      - name: Test Containers are up and running
+        run: >
+          for container in $(docker container ls -a -q);
+          do
+            if [ $(docker container inspect -f '{{.State.Status}}' $container) != "running" ]; then
+              echo "$(docker container inspect -f '{{.Name}}' $container) not running";
+              echo $(docker logs $container)
+              exit 1;
+            fi
+          done;
+          echo "All the Containers are up and running"
+
+      - name: Test Index Page HTTP Code
+        run: > 
+          test=$(curl http://localhost -o /dev/null -s -w '%{http_code}\n');
+          expected=200;
+          if [[ $test != $expected ]];
+          then
+            echo "$test not equal to $expected";
+            exit 1;
+          else
+            echo "Index return code $test";
+          fi
+
+      - name: Test Index Page Content
+        run: > 
+            expected="Hello, visited * times";
+            test=$(curl http://localhost -s);
+            if [[ $test != $expected ]];
+            then
+              echo "$test not equal to $expected";
+              exit 1;
+            else
+              echo "Index content is $test";
+            fi
